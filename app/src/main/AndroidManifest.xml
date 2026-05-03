@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wardrobe_client"
         android:name=".WardrobeApp"
+        android:localeConfig="@xml/locales_config"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"

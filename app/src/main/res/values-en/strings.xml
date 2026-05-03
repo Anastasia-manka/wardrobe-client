@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shugai</string>
+    <string name="tab_clothing">Clothing</string>
+    <string name="tab_outfits">Outfits</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_trips">Trips</string>
+    <string name="tab_profile">Profile</string>
+    <string name="login">Log in</string>
+    <string name="register">Register</string>
+    <string name="logout">Log out</string>
+    <string name="delete_account">Delete account</string>
+    <string name="support">Contact support</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_loading">Loading error</string>
+</resources>
