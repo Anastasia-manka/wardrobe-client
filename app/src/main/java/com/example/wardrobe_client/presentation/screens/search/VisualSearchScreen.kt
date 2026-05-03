@@ -11,6 +11,6 @@ import androidx.navigation.NavController
 @Composable
 fun VisualSearchScreen(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Visual Search Screen")
+        Text("Визуальный поиск — в разработке")
     }
 }
