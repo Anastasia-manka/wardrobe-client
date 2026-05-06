@@ -1,18 +1,26 @@
 package com.example.wardrobe_client.presentation.screens.auth
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,12 +28,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.wardrobe_client.R
 import com.example.wardrobe_client.presentation.navigation.Screen
+import com.example.wardrobe_client.presentation.theme.InterFont
+import com.example.wardrobe_client.presentation.theme.ShugaiBluePrimary
+import com.example.wardrobe_client.presentation.theme.YauzaFont
+import androidx.compose.foundation.clickable
+
+val ShugaiScreenBackground = Color(0xFFFFFEFC)
+val ShugaiInputBg = Color(0xFFE7E4E4)
+val ShugaiPlaceholder = Color(0xFF8B8B8B)
 
 @Composable
 fun LoginScreen(
@@ -42,61 +63,164 @@ fun LoginScreen(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(ShugaiScreenBackground)
     ) {
-        Text("Шугай")
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        OutlinedTextField(
-            value = uiState.email,
-            onValueChange = viewModel::onEmailChange,
-            label = { Text("Email") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
+        Image(
+            painter = painterResource(R.drawable.ic_flower_1_1),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .size(293.dp)
+                .offset(x = (-75).dp, y = 630.dp)
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = uiState.password,
-            onValueChange = viewModel::onPasswordChange,
-            label = { Text("Пароль") },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.fillMaxWidth()
+        Image(
+            painter = painterResource(R.drawable.ic_flower_1_2),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .size(174.dp)
+                .offset(x = 300.dp, y = 483.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        if (uiState.error != null) {
-            Text(text = uiState.error!!, color = Color.Red)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        Button(
-            onClick = viewModel::login,
-            enabled = !uiState.isLoading,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 96.dp,
+                    bottom = 48.dp,
+                    start = 24.dp,
+                    end = 24.dp
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (uiState.isLoading) {
-                CircularProgressIndicator()
-            } else {
-                Text("Войти")
+            Text(
+                text = "АВТОРИЗАЦИЯ",
+                fontFamily = YauzaFont,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W400,
+                color = ShugaiBluePrimary
+            )
+
+            Spacer(modifier = Modifier.height(56.dp))
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                TextField(
+                    value = uiState.email,
+                    onValueChange = viewModel::onEmailChange,
+                    placeholder = {
+                        Text(
+                            "Почта",
+                            fontFamily = InterFont,
+                            fontSize = 16.sp,
+                            color = ShugaiPlaceholder
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    singleLine = true,
+                    shape = RoundedCornerShape(30.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = ShugaiInputBg,
+                        unfocusedContainerColor = ShugaiInputBg,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(51.dp)
+                )
+
+                TextField(
+                    value = uiState.password,
+                    onValueChange = viewModel::onPasswordChange,
+                    placeholder = {
+                        Text(
+                            "Пароль",
+                            fontFamily = InterFont,
+                            fontSize = 16.sp,
+                            color = ShugaiPlaceholder
+                        )
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    singleLine = true,
+                    shape = RoundedCornerShape(30.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = ShugaiInputBg,
+                        unfocusedContainerColor = ShugaiInputBg,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(51.dp)
+                )
             }
-        }
 
-        Spacer(modifier = Modifier.height(12.dp))
+            if (uiState.error != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = uiState.error!!,
+                    color = MaterialTheme.colorScheme.error,
+                    fontFamily = InterFont,
+                    fontSize = 13.sp
+                )
+            }
 
-        TextButton(onClick = {
-            navController.navigate(Screen.Register.route)
-        }) {
-            Text("Нет аккаунта? Зарегистрироваться")
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                Button(
+                    onClick = viewModel::login,
+                    enabled = !uiState.isLoading,
+                    shape = RoundedCornerShape(30.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ShugaiBluePrimary,
+                        contentColor = Color(0xFFFFFEFC)
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(51.dp)
+                ) {
+                    Text(
+                        text = "Войти",
+                        fontFamily = InterFont,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Нет аккаунта?",
+                        fontFamily = InterFont,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "Зарегистрироваться",
+                        fontFamily = InterFont,
+                        fontSize = 14.sp,
+                        color = ShugaiBluePrimary,
+                        modifier = Modifier.clickable {
+                            navController.navigate(Screen.Register.route)
+                        }
+                    )
+                }
+            }
         }
     }
 }

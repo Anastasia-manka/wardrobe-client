@@ -4,16 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.wardrobe_client.presentation.navigation.AppNavGraph
@@ -45,6 +48,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Scaffold(
+                    containerColor = Color.Transparent,
+                    contentWindowInsets = WindowInsets(0),
                     bottomBar = {
                         if (showBottomBar) {
                             BottomNavBar(navController = navController)
@@ -62,7 +67,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     },
-                    floatingActionButtonPosition = androidx.compose.material3.FabPosition.Start
+                    floatingActionButtonPosition = FabPosition.Start
                 ) { paddingValues ->
                     Box(
                         modifier = Modifier
