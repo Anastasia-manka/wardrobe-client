@@ -11,11 +11,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 data class RegisterUiState(
     val email: String = "",
     val name: String = "",
     val gender: String = "",
     val password: String = "",
+    val passwordConfirm: String = "",
     val isLoading: Boolean = false,
     val error: String? = null,
     val isSuccess: Boolean = false
@@ -46,7 +48,14 @@ class RegisterViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(password = password, error = null)
     }
 
+    fun onPasswordConfirmChange(password: String) {
+        _uiState.value = _uiState.value.copy(passwordConfirm = password, error = null)
+    }
     fun register() {
+        if (_uiState.value.password != _uiState.value.passwordConfirm) {
+            _uiState.value = _uiState.value.copy(error = "Пароли не совпадают")
+            return
+        }
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             registerUseCase(

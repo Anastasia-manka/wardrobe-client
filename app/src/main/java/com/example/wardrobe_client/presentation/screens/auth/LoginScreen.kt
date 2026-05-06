@@ -43,10 +43,19 @@ import com.example.wardrobe_client.presentation.theme.InterFont
 import com.example.wardrobe_client.presentation.theme.ShugaiBluePrimary
 import com.example.wardrobe_client.presentation.theme.YauzaFont
 import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import com.example.wardrobe_client.presentation.theme.ShugaiScreenBackground
+import com.example.wardrobe_client.presentation.theme.ShugaiInputBg
+import com.example.wardrobe_client.presentation.theme.ShugaiPlaceholder
 
-val ShugaiScreenBackground = Color(0xFFFFFEFC)
-val ShugaiInputBg = Color(0xFFE7E4E4)
-val ShugaiPlaceholder = Color(0xFF8B8B8B)
 
 @Composable
 fun LoginScreen(
@@ -54,6 +63,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var passwordVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.isSuccess) {
         if (uiState.isSuccess) {
@@ -147,8 +157,23 @@ fun LoginScreen(
                             color = ShugaiPlaceholder
                         )
                     },
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (passwordVisible)
+                        VisualTransformation.None
+                    else
+                        PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                imageVector = if (passwordVisible)
+                                    Icons.Default.VisibilityOff
+                                else
+                                    Icons.Default.Visibility,
+                                contentDescription = null,
+                                tint = ShugaiPlaceholder
+                            )
+                        }
+                    },
                     singleLine = true,
                     shape = RoundedCornerShape(30.dp),
                     colors = TextFieldDefaults.colors(
