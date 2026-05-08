@@ -37,10 +37,10 @@ fun TemplateItemDto.toDomain() = TemplateItem(
     id = id,
     imageUrl = imageUrl,
     categoryId = categoryId,
-    categoryName = categoryName,
+    categoryName = categoryName ?: "",
     seasonId = seasonId,
     colorId = colorId,
-    colorName = colorName,
+    colorName = colorName ?: "",
     materialId = materialId
 )
 

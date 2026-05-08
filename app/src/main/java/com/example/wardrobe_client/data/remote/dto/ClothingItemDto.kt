@@ -44,10 +44,10 @@ data class TemplateItemDto(
     val id: String,
     val imageUrl: String,
     val categoryId: String,
-    val categoryName: String,
+    val categoryName: String? = null,
     val seasonId: String,
     val colorId: String,
-    val colorName: String,
+    val colorName: String? = null,
     val materialId: String
 )
 
