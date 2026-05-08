@@ -19,6 +19,8 @@ data class ProfileUiState(
     val isLoading: Boolean = false,
     val isLoggedOut: Boolean = false,
     val isAccountDeleted: Boolean = false,
+    val showLanguageDialog: Boolean = false,
+    val showDeleteDialog: Boolean = false,
     val error: String? = null
 )
 
@@ -68,8 +70,26 @@ class ProfileViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(isAccountDeleted = true)
                 }
                 .onFailure { error ->
-                    _uiState.value = _uiState.value.copy(error = error.message ?: "Ошибка удаления")
+                    _uiState.value = _uiState.value.copy(
+                        error = error.message ?: "Ошибка удаления"
+                    )
                 }
         }
+    }
+
+    fun showLanguageDialog() {
+        _uiState.value = _uiState.value.copy(showLanguageDialog = true)
+    }
+
+    fun hideLanguageDialog() {
+        _uiState.value = _uiState.value.copy(showLanguageDialog = false)
+    }
+
+    fun showDeleteDialog() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = true)
+    }
+
+    fun hideDeleteDialog() {
+        _uiState.value = _uiState.value.copy(showDeleteDialog = false)
     }
 }
