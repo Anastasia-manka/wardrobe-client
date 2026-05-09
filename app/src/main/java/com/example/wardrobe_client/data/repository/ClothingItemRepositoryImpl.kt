@@ -49,7 +49,7 @@ class ClothingItemRepositoryImpl @Inject constructor(
         val request = CreateClothingItemRequestDto(
             imageUrl = imageUrl,
             categoryId = item.categoryId,
-            seasonIds = item.seasonIds,
+            seasonId = item.seasonIds.firstOrNull() ?: "",
             colorId = item.colorId,
             materialId = item.materialId,
             labelIds = item.labels.map { it.id },
@@ -65,7 +65,7 @@ class ClothingItemRepositoryImpl @Inject constructor(
         val request = CreateClothingItemRequestDto(
             imageUrl = imageUrl ?: item.imageUrl,
             categoryId = item.categoryId,
-            seasonIds = item.seasonIds,
+            seasonId = item.seasonIds.firstOrNull() ?: "",
             colorId = item.colorId,
             materialId = item.materialId,
             labelIds = item.labels.map { it.id },

@@ -16,7 +16,18 @@ sealed class Screen(val route: String) {
     object SwipeCompatibility : Screen("swipe_compatibility/{itemId}") {
         fun createRoute(itemId: String) = "swipe_compatibility/$itemId"
     }
-
+    object ItemCategoryPicker : Screen("clothing_item_category/{itemId}") {
+        fun createRoute(itemId: String) = "clothing_item_category/$itemId"
+    }
+    object ItemColorPicker : Screen("clothing_item_color/{itemId}") {
+        fun createRoute(itemId: String) = "clothing_item_color/$itemId"
+    }
+    object ItemMaterialPicker : Screen("clothing_item_material/{itemId}") {
+        fun createRoute(itemId: String) = "clothing_item_material/$itemId"
+    }
+    object ItemLabelsPicker : Screen("clothing_item_labels/{itemId}") {
+        fun createRoute(itemId: String) = "clothing_item_labels/$itemId"
+    }
     object Outfits : Screen("outfits")
     object OutfitDetail : Screen("outfit/{outfitId}") {
         fun createRoute(outfitId: String) = "outfit/$outfitId"

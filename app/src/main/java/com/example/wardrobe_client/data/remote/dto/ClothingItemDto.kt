@@ -33,7 +33,7 @@ data class ClothingItemDto(
 data class CreateClothingItemRequestDto(
     val imageUrl: String,
     val categoryId: String,
-    val seasonIds: List<String>,
+    val seasonId: String,
     val colorId: String,
     val materialId: String,
     val labelIds: List<String>,

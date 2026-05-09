@@ -22,6 +22,10 @@ import com.example.wardrobe_client.presentation.screens.search.VisualSearchScree
 import com.example.wardrobe_client.presentation.screens.trips.AddTripScreen
 import com.example.wardrobe_client.presentation.screens.trips.TripDetailScreen
 import com.example.wardrobe_client.presentation.screens.trips.TripsScreen
+import com.example.wardrobe_client.presentation.screens.clothing.ItemCategoryPickerScreen
+import com.example.wardrobe_client.presentation.screens.clothing.ItemColorPickerScreen
+import com.example.wardrobe_client.presentation.screens.clothing.ItemLabelsPickerScreen
+import com.example.wardrobe_client.presentation.screens.clothing.ItemMaterialPickerScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController, startDestination: String) {
@@ -58,6 +62,30 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
             arguments = listOf(navArgument("itemId") { type = NavType.StringType })
         ) {
             SwipeCompatibilityScreen(navController = navController)
+        }
+        composable(
+            route = Screen.ItemCategoryPicker.route,
+            arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+        ) {
+            ItemCategoryPickerScreen(navController = navController)
+        }
+        composable(
+            route = Screen.ItemColorPicker.route,
+            arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+        ) {
+            ItemColorPickerScreen(navController = navController)
+        }
+        composable(
+            route = Screen.ItemMaterialPicker.route,
+            arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+        ) {
+            ItemMaterialPickerScreen(navController = navController)
+        }
+        composable(
+            route = Screen.ItemLabelsPicker.route,
+            arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+        ) {
+            ItemLabelsPickerScreen(navController = navController)
         }
         composable(Screen.Outfits.route) {
             OutfitsScreen(navController = navController)
