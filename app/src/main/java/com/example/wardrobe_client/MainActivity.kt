@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FabPosition
@@ -17,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.wardrobe_client.presentation.navigation.AppNavGraph
@@ -58,16 +61,17 @@ class MainActivity : ComponentActivity() {
                     floatingActionButton = {
                         if (fabRoute != null) {
                             FloatingActionButton(
-                                onClick = { navController.navigate(fabRoute) },
+                                onClick = { navController.navigate(fabRoute!!) },
                                 containerColor = ShugaiBluePrimary,
                                 contentColor = ShugaiTextOnPrimary,
-                                elevation = FloatingActionButtonDefaults.elevation()
+                                shape = RoundedCornerShape(30.dp),
+                                modifier = Modifier.size(61.dp, 60.dp)
                             ) {
                                 Icon(Icons.Default.Add, contentDescription = "Добавить")
                             }
                         }
                     },
-                    floatingActionButtonPosition = FabPosition.Start
+                    floatingActionButtonPosition = FabPosition.End
                 ) { paddingValues ->
                     Box(
                         modifier = Modifier

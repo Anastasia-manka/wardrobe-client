@@ -20,17 +20,17 @@ fun ClothingItemDto.toDomain() = ClothingItem(
     id = id,
     imageUrl = imageUrl,
     categoryId = categoryId,
-    categoryName = categoryName,
-    categoryGroupName = categoryGroupName,
-    seasonIds = seasonIds,
-    seasonNames = seasonNames,
+    categoryName = categoryName ?: "",
+    categoryGroupName = categoryGroupName ?: "",
+    seasonIds = seasonIds ?: listOfNotNull(seasonId),
+    seasonNames = seasonNames ?: emptyList(),
     colorId = colorId,
-    colorName = colorName,
+    colorName = colorName ?: "",
     materialId = materialId,
-    materialName = materialName,
-    labels = labels.map { it.toDomain() },
-    storagePlace = storagePlace,
-    comment = comment
+    materialName = materialName ?: "",
+    labels = labels?.map { it.toDomain() } ?: emptyList(),
+    storagePlace = storagePlace ?: "",
+    comment = comment ?: ""
 )
 
 fun TemplateItemDto.toDomain() = TemplateItem(
@@ -50,17 +50,17 @@ fun ClothingItemDto.toEntity(): ClothingItemEntity {
         id = id,
         imageUrl = imageUrl,
         categoryId = categoryId,
-        categoryName = categoryName,
-        categoryGroupName = categoryGroupName,
-        seasonIds = seasonIds.joinToString(","),
-        seasonNames = seasonNames.joinToString(","),
+        categoryName = categoryName ?: "",
+        categoryGroupName = categoryGroupName ?: "",
+        seasonIds = (seasonIds ?: listOfNotNull(seasonId)).joinToString(","),
+        seasonNames = (seasonNames ?: emptyList()).joinToString(","),
         colorId = colorId,
-        colorName = colorName,
+        colorName = colorName ?: "",
         materialId = materialId,
-        materialName = materialName,
-        labelsJson = json.encodeToString(labels),
-        storagePlace = storagePlace,
-        comment = comment
+        materialName = materialName ?: "",
+        labelsJson = json.encodeToString(labels ?: emptyList()),
+        storagePlace = storagePlace ?: "",
+        comment = comment ?: ""
     )
 }
 

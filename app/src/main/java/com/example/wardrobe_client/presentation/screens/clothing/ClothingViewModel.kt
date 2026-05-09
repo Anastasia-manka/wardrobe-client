@@ -15,6 +15,8 @@ import javax.inject.Inject
 
 data class ClothingUiState(
     val items: List<ClothingItem> = emptyList(),
+    val filteredItems: List<ClothingItem> = emptyList(),
+    val searchQuery: String = "",
     val references: References? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
@@ -60,9 +62,16 @@ class ClothingViewModel @Inject constructor(
                 labelId = state.selectedLabelId
             )
                 .onSuccess { items ->
-                    _uiState.value = _uiState.value.copy(isLoading = false, items = items)
+                    android.util.Log.d("ClothingVM", "Loaded ${items.size} items")
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        items = items,
+                        filteredItems = items
+                    )
+                    filterItems()
                 }
                 .onFailure { error ->
+                    android.util.Log.e("ClothingVM", "Error: ${error.message}")
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = error.message ?: "Ошибка загрузки"
@@ -105,5 +114,44 @@ class ClothingViewModel @Inject constructor(
             selectedLabelId = null
         )
         loadItems()
+    }
+
+    fun onSearchQuery(query: String) {
+        _uiState.value = _uiState.value.copy(searchQuery = query)
+        filterItems()
+    }
+
+    private fun filterItems() {
+        val query = _uiState.value.searchQuery.lowercase().trim()
+        val items = _uiState.value.items
+        val refs = _uiState.value.references
+
+        val filtered = if (query.isEmpty()) {
+            items
+        } else {
+            items.filter { item ->
+                val categoryName = refs?.categoryGroups
+                    ?.flatMap { it.categories }
+                    ?.find { it.id == item.categoryId }
+                    ?.name?.lowercase() ?: ""
+                val colorName = refs?.colors
+                    ?.find { it.id == item.colorId }
+                    ?.name?.lowercase() ?: ""
+                val materialName = refs?.materials
+                    ?.find { it.id == item.materialId }
+                    ?.name?.lowercase() ?: ""
+                val seasonNames = refs?.seasons
+                    ?.filter { item.seasonIds.contains(it.id) }
+                    ?.map { it.name.lowercase() } ?: emptyList()
+
+                categoryName.contains(query) ||
+                        colorName.contains(query) ||
+                        materialName.contains(query) ||
+                        seasonNames.any { it.contains(query) }
+            }
+        }
+
+        android.util.Log.d("ClothingVM", "filtered=${filtered.size}")
+        _uiState.value = _uiState.value.copy(filteredItems = filtered)
     }
 }

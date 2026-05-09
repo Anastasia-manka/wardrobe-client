@@ -12,21 +12,23 @@ data class LabelDto(
 @Serializable
 data class ClothingItemDto(
     val id: String,
+    val userId: String? = null,
     val imageUrl: String,
     val categoryId: String,
-    val categoryName: String,
-    val categoryGroupName: String,
-    val seasonIds: List<String>,
-    val seasonNames: List<String>,
+    val categoryName: String? = null,
+    val categoryGroupName: String? = null,
+    val seasonId: String? = null,
+    val seasonIds: List<String>? = null,
+    val seasonNames: List<String>? = null,
     val colorId: String,
-    val colorName: String,
+    val colorName: String? = null,
     val materialId: String,
-    val materialName: String,
-    val labels: List<LabelDto>,
-    val storagePlace: String,
-    val comment: String
+    val materialName: String? = null,
+    val labels: List<LabelDto>? = null,
+    val labelIds: List<String>? = null,
+    val storagePlace: String? = null,
+    val comment: String? = null
 )
-
 @Serializable
 data class CreateClothingItemRequestDto(
     val imageUrl: String,
