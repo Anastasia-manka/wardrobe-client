@@ -13,6 +13,8 @@ import kotlinx.serialization.json.Json
 fun TripItemDto.toDomain() = TripItem(
     id = id,
     itemId = itemId,
+    imageUrl = imageUrl,
+    categoryName = categoryName,
     isPacked = isPacked
 )
 

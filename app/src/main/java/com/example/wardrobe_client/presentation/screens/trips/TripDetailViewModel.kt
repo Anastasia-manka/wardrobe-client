@@ -1,8 +1,10 @@
 package com.example.wardrobe_client.presentation.screens.trips
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.example.wardrobe_client.domain.model.Trip
 import com.example.wardrobe_client.domain.usecase.trip.AddItemToTripUseCase
 import com.example.wardrobe_client.domain.usecase.trip.DeleteTripUseCase
@@ -58,8 +60,9 @@ class TripDetailViewModel @Inject constructor(
         }
     }
 
-    fun deleteTrip() {
+    fun deleteTrip(context: Context) {
         viewModelScope.launch {
+            WorkManager.getInstance(context).cancelUniqueWork(tripId)
             deleteTripUseCase(tripId)
                 .onSuccess {
                     _uiState.value = _uiState.value.copy(isDeleted = true)

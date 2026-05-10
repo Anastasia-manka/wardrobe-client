@@ -21,6 +21,7 @@ import com.example.wardrobe_client.presentation.screens.profile.ProfileScreen
 import com.example.wardrobe_client.presentation.screens.search.VisualSearchScreen
 import com.example.wardrobe_client.presentation.screens.trips.AddTripScreen
 import com.example.wardrobe_client.presentation.screens.trips.TripDetailScreen
+import com.example.wardrobe_client.presentation.screens.trips.TripItemsPickerScreen
 import com.example.wardrobe_client.presentation.screens.trips.TripsScreen
 import com.example.wardrobe_client.presentation.screens.clothing.ItemCategoryPickerScreen
 import com.example.wardrobe_client.presentation.screens.clothing.ItemColorPickerScreen
@@ -120,6 +121,12 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
         }
         composable(Screen.AddTrip.route) {
             AddTripScreen(navController = navController)
+        }
+        composable(
+            route = Screen.TripItemsPicker.route,
+            arguments = listOf(navArgument("tripId") { type = NavType.StringType })
+        ) {
+            TripItemsPickerScreen(navController = navController)
         }
         composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)

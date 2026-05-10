@@ -17,5 +17,7 @@ data class Trip(
 data class TripItem(
     val id: String,
     val itemId: String,
+    val imageUrl: String,
+    val categoryName: String,
     val isPacked: Boolean
 )

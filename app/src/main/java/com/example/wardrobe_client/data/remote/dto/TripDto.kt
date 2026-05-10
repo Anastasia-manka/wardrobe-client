@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 data class TripItemDto(
     val id: String,
     val itemId: String,
+    val imageUrl: String = "",
+    val categoryName: String = "",
     val isPacked: Boolean
 )
 
@@ -15,13 +17,13 @@ data class TripDto(
     val name: String,
     val tripDate: String,
     val tripTypeId: String,
-    val tripTypeName: String,
+    val tripTypeName: String = "",
     val climateId: String,
-    val climateName: String,
+    val climateName: String = "",
     val luggageTypeId: String,
-    val luggageTypeName: String,
-    val activities: List<ReferenceItemDto>,
-    val items: List<TripItemDto>
+    val luggageTypeName: String = "",
+    val activities: List<ReferenceItemDto> = emptyList(),
+    val items: List<TripItemDto> = emptyList()
 )
 
 @Serializable

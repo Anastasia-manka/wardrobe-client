@@ -43,6 +43,10 @@ sealed class Screen(val route: String) {
     object TripDetail : Screen("trip/{tripId}") {
         fun createRoute(tripId: String) = "trip/$tripId"
     }
+    object TripItemsPicker : Screen("trip_items_picker/{tripId}") {
+        fun createRoute(tripId: String) = "trip_items_picker/$tripId"
+    }
+
     object AddTrip : Screen("add_trip")
 
     object Profile : Screen("profile")
