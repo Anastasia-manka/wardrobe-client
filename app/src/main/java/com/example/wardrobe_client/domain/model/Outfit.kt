@@ -12,5 +12,6 @@ data class OutfitItem(
     val itemId: String,
     val x: Float,
     val y: Float,
-    val scale: Float
+    val scale: Float,
+    val imageUrl: String = ""
 )

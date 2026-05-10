@@ -113,7 +113,10 @@ fun ClothingItemDetailScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Отмена")
+                    Text(
+                        "Отмена",
+                        color = Color.Black
+                    )
                 }
             }
         )

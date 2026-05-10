@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wardrobe_client.domain.model.Outfit
+import com.example.wardrobe_client.domain.usecase.clothing.GetClothingItemsUseCase
 import com.example.wardrobe_client.domain.usecase.outfit.DeleteOutfitUseCase
 import com.example.wardrobe_client.domain.usecase.outfit.GetOutfitUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ data class OutfitDetailUiState(
 class OutfitDetailViewModel @Inject constructor(
     private val getOutfitUseCase: GetOutfitUseCase,
     private val deleteOutfitUseCase: DeleteOutfitUseCase,
+    private val getClothingItemsUseCase: GetClothingItemsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -41,7 +43,23 @@ class OutfitDetailViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(isLoading = true)
             getOutfitUseCase(outfitId)
                 .onSuccess { outfit ->
-                    _uiState.value = _uiState.value.copy(isLoading = false, outfit = outfit)
+                    getClothingItemsUseCase()
+                        .onSuccess { allItems ->
+                            val itemsWithImages = outfit.items.map { outfitItem ->
+                                val found = allItems.find { it.id == outfitItem.itemId }
+                                outfitItem.copy(imageUrl = found?.imageUrl ?: "")
+                            }
+                            _uiState.value = _uiState.value.copy(
+                                isLoading = false,
+                                outfit = outfit.copy(items = itemsWithImages)
+                            )
+                        }
+                        .onFailure {
+                            _uiState.value = _uiState.value.copy(
+                                isLoading = false,
+                                outfit = outfit
+                            )
+                        }
                 }
                 .onFailure { error ->
                     _uiState.value = _uiState.value.copy(
@@ -59,7 +77,9 @@ class OutfitDetailViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(isDeleted = true)
                 }
                 .onFailure { error ->
-                    _uiState.value = _uiState.value.copy(error = error.message ?: "Ошибка удаления")
+                    _uiState.value = _uiState.value.copy(
+                        error = error.message ?: "Ошибка удаления"
+                    )
                 }
         }
     }

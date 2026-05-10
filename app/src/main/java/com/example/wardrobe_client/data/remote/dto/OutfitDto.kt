@@ -5,9 +5,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class OutfitItemDto(
     val itemId: String,
-    val x: Float,
-    val y: Float,
-    val scale: Float
+    val position: String
+)
+
+@Serializable
+data class OutfitItemRequestDto(
+    val itemId: String,
+    val position: String
 )
 
 @Serializable
@@ -23,5 +27,5 @@ data class OutfitDto(
 data class CreateOutfitRequestDto(
     val coverUrl: String,
     val styleId: String,
-    val items: List<OutfitItemDto>
+    val items: List<OutfitItemRequestDto>
 )

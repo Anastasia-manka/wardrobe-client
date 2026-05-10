@@ -7,13 +7,21 @@ import com.example.wardrobe_client.domain.model.Outfit
 import com.example.wardrobe_client.domain.model.OutfitItem
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.float
 
-fun OutfitItemDto.toDomain() = OutfitItem(
-    itemId = itemId,
-    x = x,
-    y = y,
-    scale = scale
-)
+private val json = Json { ignoreUnknownKeys = true }
+
+fun OutfitItemDto.toDomain(): OutfitItem {
+    val pos = json.parseToJsonElement(position).jsonObject
+    return OutfitItem(
+        itemId = itemId,
+        x = pos["x"]?.jsonPrimitive?.float ?: 0f,
+        y = pos["y"]?.jsonPrimitive?.float ?: 0f,
+        scale = pos["scale"]?.jsonPrimitive?.float ?: 1f
+    )
+}
 
 fun OutfitDto.toDomain() = Outfit(
     id = id,
@@ -24,7 +32,6 @@ fun OutfitDto.toDomain() = Outfit(
 )
 
 fun OutfitDto.toEntity(): OutfitEntity {
-    val json = Json { ignoreUnknownKeys = true }
     return OutfitEntity(
         id = id,
         coverUrl = coverUrl,
@@ -35,7 +42,6 @@ fun OutfitDto.toEntity(): OutfitEntity {
 }
 
 fun OutfitEntity.toDomain(): Outfit {
-    val json = Json { ignoreUnknownKeys = true }
     val items = json.decodeFromString<List<OutfitItemDto>>(itemsJson)
     return Outfit(
         id = id,

@@ -6,6 +6,7 @@ import com.example.wardrobe_client.data.mapper.toEntity
 import com.example.wardrobe_client.data.remote.api.OutfitApi
 import com.example.wardrobe_client.data.remote.dto.CreateOutfitRequestDto
 import com.example.wardrobe_client.data.remote.dto.OutfitItemDto
+import com.example.wardrobe_client.data.remote.dto.OutfitItemRequestDto
 import com.example.wardrobe_client.domain.model.Outfit
 import com.example.wardrobe_client.domain.model.OutfitItem
 import com.example.wardrobe_client.domain.repository.OutfitRepository
@@ -46,7 +47,12 @@ class OutfitRepositoryImpl @Inject constructor(
         val request = CreateOutfitRequestDto(
             coverUrl = coverUrl,
             styleId = styleId,
-            items = items.map { OutfitItemDto(it.itemId, it.x, it.y, it.scale) }
+            items = items.map {
+                OutfitItemRequestDto(
+                    itemId = it.itemId,
+                    position = """{"x":${it.x},"y":${it.y},"scale":${it.scale}}"""
+                )
+            }
         )
         val created = outfitApi.createOutfit(request)
         outfitDao.insert(created.toEntity())
@@ -62,7 +68,12 @@ class OutfitRepositoryImpl @Inject constructor(
         val request = CreateOutfitRequestDto(
             coverUrl = coverUrl,
             styleId = styleId,
-            items = items.map { OutfitItemDto(it.itemId, it.x, it.y, it.scale) }
+            items = items.map {
+                OutfitItemRequestDto(
+                    itemId = it.itemId,
+                    position = """{"x":${it.x},"y":${it.y},"scale":${it.scale}}"""
+                )
+            }
         )
         val updated = outfitApi.updateOutfit(id, request)
         outfitDao.insert(updated.toEntity())
