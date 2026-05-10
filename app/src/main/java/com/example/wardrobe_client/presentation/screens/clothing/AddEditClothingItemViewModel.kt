@@ -1,5 +1,8 @@
 package com.example.wardrobe_client.presentation.screens.clothing
 
+import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,17 +13,21 @@ import com.example.wardrobe_client.domain.usecase.GetReferencesUseCase
 import com.example.wardrobe_client.domain.usecase.clothing.CreateClothingItemUseCase
 import com.example.wardrobe_client.domain.usecase.clothing.GetClothingItemUseCase
 import com.example.wardrobe_client.domain.usecase.clothing.UpdateClothingItemUseCase
+import com.example.wardrobe_client.domain.usecase.clothing.UploadImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 data class AddEditClothingItemUiState(
-    val imageUrl: String = "",
+    val photoUri: Uri? = null,
+    val existingImageUrl: String = "",
     val categoryId: String = "",
-    val seasonIds: List<String> = emptyList(),
+    val seasonId: String = "",
     val colorId: String = "",
     val materialId: String = "",
     val labels: List<Label> = emptyList(),
@@ -34,10 +41,12 @@ data class AddEditClothingItemUiState(
 
 @HiltViewModel
 class AddEditClothingItemViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val createClothingItemUseCase: CreateClothingItemUseCase,
     private val updateClothingItemUseCase: UpdateClothingItemUseCase,
     private val getClothingItemUseCase: GetClothingItemUseCase,
     private val getReferencesUseCase: GetReferencesUseCase,
+    private val uploadImageUseCase: UploadImageUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -47,6 +56,8 @@ class AddEditClothingItemViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AddEditClothingItemUiState())
     val uiState: StateFlow<AddEditClothingItemUiState> = _uiState.asStateFlow()
 
+    private var pendingCameraUri: Uri? = null
+
     init {
         loadReferences()
         if (isEditMode) loadItem()
@@ -55,8 +66,8 @@ class AddEditClothingItemViewModel @Inject constructor(
     private fun loadReferences() {
         viewModelScope.launch {
             getReferencesUseCase()
-                .onSuccess { references ->
-                    _uiState.value = _uiState.value.copy(references = references)
+                .onSuccess { refs ->
+                    _uiState.value = _uiState.value.copy(references = refs)
                 }
         }
     }
@@ -66,9 +77,9 @@ class AddEditClothingItemViewModel @Inject constructor(
             getClothingItemUseCase(itemId!!)
                 .onSuccess { item ->
                     _uiState.value = _uiState.value.copy(
-                        imageUrl = item.imageUrl,
+                        existingImageUrl = item.imageUrl,
                         categoryId = item.categoryId,
-                        seasonIds = item.seasonIds,
+                        seasonId = item.seasonIds.firstOrNull() ?: "",
                         colorId = item.colorId,
                         materialId = item.materialId,
                         labels = item.labels,
@@ -79,18 +90,33 @@ class AddEditClothingItemViewModel @Inject constructor(
         }
     }
 
-    fun onImageUrlChange(url: String) {
-        _uiState.value = _uiState.value.copy(imageUrl = url)
+    fun createCameraUri(): Uri {
+        val file = File(context.cacheDir, "photo_${System.currentTimeMillis()}.jpg")
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.provider",
+            file
+        )
+        pendingCameraUri = uri
+        return uri
+    }
+
+    fun onCameraPhotoTaken() {
+        pendingCameraUri?.let { uri ->
+            _uiState.value = _uiState.value.copy(photoUri = uri, error = null)
+        }
+    }
+
+    fun onPhotoSelected(uri: Uri) {
+        _uiState.value = _uiState.value.copy(photoUri = uri, error = null)
     }
 
     fun onCategoryChange(categoryId: String) {
         _uiState.value = _uiState.value.copy(categoryId = categoryId)
     }
 
-    fun onSeasonToggle(seasonId: String) {
-        val current = _uiState.value.seasonIds.toMutableList()
-        if (current.contains(seasonId)) current.remove(seasonId) else current.add(seasonId)
-        _uiState.value = _uiState.value.copy(seasonIds = current)
+    fun onSeasonChange(seasonId: String) {
+        _uiState.value = _uiState.value.copy(seasonId = seasonId)
     }
 
     fun onColorChange(colorId: String) {
@@ -117,16 +143,52 @@ class AddEditClothingItemViewModel @Inject constructor(
     }
 
     fun save() {
+        val state = _uiState.value
+
+        if (!isEditMode && state.photoUri == null) {
+            _uiState.value = state.copy(error = "Добавьте фото вещи")
+            return
+        }
+        if (state.categoryId.isBlank()) {
+            _uiState.value = state.copy(error = "Выберите категорию")
+            return
+        }
+        if (state.seasonId.isBlank()) {
+            _uiState.value = state.copy(error = "Выберите сезон")
+            return
+        }
+        if (state.colorId.isBlank()) {
+            _uiState.value = state.copy(error = "Выберите цвет")
+            return
+        }
+        if (state.materialId.isBlank()) {
+            _uiState.value = state.copy(error = "Выберите материал")
+            return
+        }
+
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-            val state = _uiState.value
+
+            val imageUrl = if (state.photoUri != null) {
+                uploadImageUseCase(state.photoUri)
+                    .getOrElse { e ->
+                        _uiState.value = _uiState.value.copy(
+                            isLoading = false,
+                            error = "Ошибка загрузки фото: ${e.message}"
+                        )
+                        return@launch
+                    }
+            } else {
+                state.existingImageUrl
+            }
+
             val item = ClothingItem(
                 id = itemId ?: "",
-                imageUrl = state.imageUrl,
+                imageUrl = imageUrl,
                 categoryId = state.categoryId,
                 categoryName = "",
                 categoryGroupName = "",
-                seasonIds = state.seasonIds,
+                seasonIds = listOfNotNull(state.seasonId.ifBlank { null }),
                 seasonNames = emptyList(),
                 colorId = state.colorId,
                 colorName = "",
@@ -136,19 +198,21 @@ class AddEditClothingItemViewModel @Inject constructor(
                 storagePlace = state.storagePlace,
                 comment = state.comment
             )
+
             val result = if (isEditMode) {
-                updateClothingItemUseCase(itemId!!, item, state.imageUrl)
+                updateClothingItemUseCase(itemId!!, item, imageUrl)
             } else {
-                createClothingItemUseCase(item, state.imageUrl)
+                createClothingItemUseCase(item, imageUrl)
             }
+
             result
                 .onSuccess {
                     _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
                 }
-                .onFailure { error ->
+                .onFailure { e ->
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        error = error.message ?: "Ошибка сохранения"
+                        error = e.message ?: "Ошибка сохранения"
                     )
                 }
         }
