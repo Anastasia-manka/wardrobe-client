@@ -23,6 +23,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.wardrobe_client.domain.model.ClothingItem
 import com.example.wardrobe_client.domain.model.Outfit
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.example.wardrobe_client.presentation.theme.InterFont
+import com.example.wardrobe_client.presentation.theme.ShugaiBluePrimary
 
 @Composable
 fun ClothingItemDetailsTab(item: ClothingItem) {
@@ -85,7 +99,8 @@ fun ClothingItemOutfitsTab(
 fun ClothingItemCompatibleTab(
     compatibleItems: List<ClothingItem>,
     onSwipeClick: () -> Unit,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    onDeleteCompatibility: (String) -> Unit
 ) {
     Column {
         LazyVerticalGrid(
@@ -96,24 +111,54 @@ fun ClothingItemCompatibleTab(
             modifier = Modifier.weight(1f)
         ) {
             items(compatibleItems) { item ->
-                AsyncImage(
-                    model = item.imageUrl,
-                    contentDescription = item.categoryName,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable { onItemClick(item.id) }
-                )
+                Box {
+                    AsyncImage(
+                        model = item.imageUrl,
+                        contentDescription = item.categoryName,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .aspectRatio(1f)
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { onItemClick(item.id) }
+                    )
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(6.dp)
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.85f))
+                            .clickable { onDeleteCompatibility(item.id) },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            tint = ShugaiBluePrimary,
+                            modifier = Modifier.size(14.dp)
+                        )
+                    }
+                }
             }
         }
         Button(
             onClick = onSwipeClick,
+            shape = RoundedCornerShape(30.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = ShugaiBluePrimary,
+                contentColor = Color.White
+            ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .height(51.dp)
         ) {
-            Text("Подобрать одежду")
+            Text(
+                text = "Подобрать одежду",
+                fontFamily = InterFont,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W500
+            )
         }
     }
 }

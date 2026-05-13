@@ -101,4 +101,7 @@ class ClothingItemRepositoryImpl @Inject constructor(
     override suspend fun getItemOutfits(id: String): Result<List<Outfit>> = runCatching {
         clothingItemApi.getItemOutfits(id).map { it.toDomain() }
     }
+    override suspend fun deleteCompatibility(itemId: String, compatibleItemId: String): Result<Unit> = runCatching {
+        clothingItemApi.deleteCompatibility(itemId, compatibleItemId)
+    }
 }

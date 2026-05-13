@@ -19,6 +19,7 @@ import com.example.wardrobe_client.domain.model.References
 import com.example.wardrobe_client.domain.usecase.GetReferencesUseCase
 import com.example.wardrobe_client.domain.usecase.clothing.UpdateClothingItemUseCase
 import com.example.wardrobe_client.domain.model.Label
+import com.example.wardrobe_client.domain.usecase.clothing.DeleteCompatibilityUseCase
 
 data class ClothingItemDetailUiState(
     val item: ClothingItem? = null,
@@ -49,6 +50,7 @@ class ClothingItemDetailViewModel @Inject constructor(
     private val getItemOutfitsUseCase: GetItemOutfitsUseCase,
     private val getCompatibleItemsUseCase: GetCompatibleItemsUseCase,
     private val getReferencesUseCase: GetReferencesUseCase,
+    private val deleteCompatibilityUseCase: DeleteCompatibilityUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -192,6 +194,14 @@ class ClothingItemDetailViewModel @Inject constructor(
             editedSeasonIds = listOf(seasonId),
             hasChanges = true
         )
+    }
+    fun deleteCompatibility(compatibleItemId: String) {
+        viewModelScope.launch {
+            deleteCompatibilityUseCase(itemId, compatibleItemId)
+                .onSuccess {
+                    loadCompatibleItems()
+                }
+        }
     }
     private fun loadReferences() {
         viewModelScope.launch {

@@ -20,4 +20,5 @@ interface ClothingItemRepository {
     suspend fun getCompatibleItems(id: String, categoryGroupId: String?): Result<List<ClothingItem>>
     suspend fun addCompatibility(itemId: String, compatibleItemId: String): Result<Unit>
     suspend fun getItemOutfits(id: String): Result<List<com.example.wardrobe_client.domain.model.Outfit>>
+    suspend fun deleteCompatibility(itemId: String, compatibleItemId: String): Result<Unit>
 }

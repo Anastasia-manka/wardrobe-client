@@ -330,6 +330,9 @@ fun ClothingItemDetailScreen(
                     },
                     onItemClick = { itemId ->
                         navController.navigate(Screen.ClothingItemDetail.createRoute(itemId))
+                    },
+                    onDeleteCompatibility = { compatibleItemId ->
+                        viewModel.deleteCompatibility(compatibleItemId)
                     }
                 )
             }

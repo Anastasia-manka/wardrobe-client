@@ -55,6 +55,11 @@ interface ClothingItemApi {
         @Path("id") id: String,
         @Body request: Map<String, String>
     )
+    @DELETE("items/{id}/compatibility/{compatibleItemId}")
+    suspend fun deleteCompatibility(
+        @Path("id") itemId: String,
+        @Path("compatibleItemId") compatibleItemId: String
+    )
 
     @GET("items/{id}/outfits")
     suspend fun getItemOutfits(@Path("id") id: String): List<OutfitDto>
