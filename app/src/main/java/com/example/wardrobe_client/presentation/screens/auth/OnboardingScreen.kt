@@ -37,12 +37,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.wardrobe_client.R
 import com.example.wardrobe_client.presentation.navigation.Screen
 import com.example.wardrobe_client.presentation.theme.InterFont
 import com.example.wardrobe_client.presentation.theme.ShugaiBluePrimary
@@ -74,7 +76,7 @@ fun OnboardingScreen(
         Spacer(modifier = Modifier.height(48.dp))
 
         Text(
-            text = "Хотите добавить вещи?",
+            text = stringResource(R.string.onboarding_title),
             fontFamily = YauzaFont,
             fontSize = 24.sp,
             fontWeight = FontWeight.W400,
@@ -153,7 +155,7 @@ fun OnboardingScreen(
                     .border(1.dp, Color(0xFF8B8B8B), RoundedCornerShape(30.dp))
             ) {
                 Text(
-                    text = "Пропустить",
+                    text = stringResource(R.string.onboarding_skip),
                     fontFamily = InterFont,
                     fontSize = 16.sp,
                     color = Color(0xFF8B8B8B)
@@ -175,7 +177,7 @@ fun OnboardingScreen(
                     .height(51.dp)
             ) {
                 Text(
-                    text = "Применить",
+                    text = stringResource(R.string.onboarding_apply),
                     fontFamily = InterFont,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500

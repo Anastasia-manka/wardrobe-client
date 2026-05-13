@@ -64,6 +64,7 @@ import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ProfileScreen(
@@ -93,7 +94,7 @@ fun ProfileScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = "Выбрать язык",
+                            text = stringResource(R.string.profile_language_title),
                             fontFamily = InterFont,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
@@ -114,8 +115,7 @@ fun ProfileScreen(
 
                     listOf(
                         "ru" to "Русский",
-                        "en" to "English",
-                        "ko" to "한국어"
+                        "en" to "English"
                     ).forEach { (code, name) ->
                         Row(
                             modifier = Modifier
@@ -156,7 +156,7 @@ fun ProfileScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Выбрать",
+                            text =  stringResource(R.string.profile_language_select_button),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = Color.White
@@ -190,7 +190,7 @@ fun ProfileScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Вы уверены, что хотите удалить аккаунт?",
+                        text = stringResource(R.string.profile_delete_account_confirm),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
@@ -215,7 +215,7 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Удалить",
+                                text = stringResource(R.string.profile_delete_button),
                                 fontFamily = InterFont,
                                 fontSize = 16.sp,
                                 color = Color(0xFFC33636)
@@ -230,7 +230,7 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Отмена",
+                                text = stringResource(R.string.cancel_button),
                                 fontFamily = InterFont,
                                 fontSize = 16.sp,
                                 color = Color.White
@@ -276,7 +276,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             Text(
-                text = "ПРОФИЛЬ",
+                text = stringResource(R.string.profile_title),
                 fontFamily = YauzaFont,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -368,7 +368,7 @@ fun ProfileScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     },
-                    text = "Сменить язык",
+                    text = stringResource(R.string.profile_change_language),
                     textColor = Color.White,
                     backgroundColor = ShugaiBluePrimary,
                     onClick = viewModel::showLanguageDialog
@@ -383,7 +383,7 @@ fun ProfileScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     },
-                    text = "Поддержка",
+                    text = stringResource(R.string.profile_support),
                     textColor = Color.White,
                     backgroundColor = ShugaiBluePrimary,
                     onClick = {
@@ -407,7 +407,7 @@ fun ProfileScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     },
-                    text = "Выйти из аккаунта",
+                    text = stringResource(R.string.profile_logout),
                     textColor = Color(0xFFC33636),
                     backgroundColor = Color(0xFFE7E5E5),
                     onClick = viewModel::logout
@@ -422,7 +422,7 @@ fun ProfileScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     },
-                    text = "Удалить аккаунт",
+                    text = stringResource(R.string.profile_delete_account),
                     textColor = Color(0xFFC33636),
                     backgroundColor = Color(0xFFE7E5E5),
                     onClick = viewModel::showDeleteDialog

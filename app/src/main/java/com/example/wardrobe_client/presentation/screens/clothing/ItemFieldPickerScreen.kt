@@ -42,6 +42,8 @@ import com.example.wardrobe_client.presentation.theme.YauzaFont
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.border
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 
 data class PickerItem(
     val id: String,
@@ -153,7 +155,7 @@ fun ItemFieldPickerScreen(
                         .height(51.dp)
                 ) {
                     Text(
-                        text = "Применить",
+                        text = stringResource(R.string.onboarding_apply),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500

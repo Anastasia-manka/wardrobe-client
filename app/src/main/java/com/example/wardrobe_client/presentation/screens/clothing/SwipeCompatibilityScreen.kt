@@ -53,6 +53,8 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.border
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 
 private data class CategoryFilter(val label: String, val groupId: String?)
 
@@ -96,7 +98,7 @@ fun SwipeCompatibilityScreen(
                     .clickable { navController.popBackStack() }
             )
             Text(
-                text = "С чем носить",
+                text = stringResource(R.string.clothing_wear_with),
                 fontFamily = InterFont,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.W600,
@@ -154,7 +156,7 @@ fun SwipeCompatibilityScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Вещей для подбора нет",
+                        text = stringResource(R.string.swipe_empty),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         color = Color.Gray

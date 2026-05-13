@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.wardrobe_client.R
 import coil.compose.AsyncImage
 import com.example.wardrobe_client.presentation.navigation.Screen
 import com.example.wardrobe_client.presentation.theme.*
@@ -50,11 +52,11 @@ fun OutfitDetailScreen(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             title = {
-                Text("Удалить наряд?", fontFamily = InterFont, fontWeight = FontWeight.W500)
+                Text( stringResource(R.string.outfit_delete_confirm), fontFamily = InterFont, fontWeight = FontWeight.W500)
             },
             text = {
                 Text(
-                    "Наряд будет удалён. Это действие необратимо.",
+                    stringResource(R.string.outfit_delete_message),
                     fontFamily = InterFont
                 )
             },
@@ -63,13 +65,13 @@ fun OutfitDetailScreen(
                     showDeleteDialog = false
                     viewModel.deleteOutfit()
                 }) {
-                    Text("Удалить", color = Color(0xFFC33636), fontFamily = InterFont)
+                    Text( stringResource(R.string.profile_delete_button), color = Color(0xFFC33636), fontFamily = InterFont)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
                     Text(
-                        "Отмена",
+                        stringResource(R.string.cancel_button),
                         fontFamily = InterFont,
                         color = Color.Black
                     )
@@ -93,7 +95,7 @@ fun OutfitDetailScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Выберите действие",
+                            text = stringResource(R.string.action_sheet_title),
                             fontFamily = InterFont,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
@@ -136,7 +138,7 @@ fun OutfitDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Редактировать",
+                            text = stringResource(R.string.action_edit),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W500
@@ -166,7 +168,7 @@ fun OutfitDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Удалить",
+                            text =  stringResource(R.string.profile_delete_button),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W500,
@@ -215,7 +217,7 @@ fun OutfitDetailScreen(
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = "Наряд",
+                    text = stringResource(R.string.outfit_title),
                     fontFamily = YauzaFont,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.W400,
@@ -250,7 +252,7 @@ fun OutfitDetailScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Вещи",
+                            text = stringResource(R.string.outfit_items_section),
                             fontFamily = YauzaFont,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.W400,
@@ -288,7 +290,7 @@ fun OutfitDetailScreen(
 
                 if (!outfit.styleName.isNullOrBlank()) {
                     Text(
-                        text = "Стиль",
+                        text = stringResource(R.string.outfit_style_label),
                         fontFamily = InterFont,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W500,

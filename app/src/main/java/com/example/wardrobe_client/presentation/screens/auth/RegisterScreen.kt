@@ -67,6 +67,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,7 +132,7 @@ fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "РЕГИСТРАЦИЯ",
+                text = stringResource(R.string.register_title),
                 fontFamily = YauzaFont,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -146,7 +147,7 @@ fun RegisterScreen(
                     onValueChange = viewModel::onNameChange,
                     placeholder = {
                         Text(
-                            "Имя",
+                            stringResource(R.string.register_name_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -171,7 +172,7 @@ fun RegisterScreen(
                     onValueChange = viewModel::onEmailChange,
                     placeholder = {
                         Text(
-                            "Почта",
+                            stringResource(R.string.login_email_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -210,7 +211,7 @@ fun RegisterScreen(
                         contentAlignment = Alignment.CenterStart
                     ) {
                         Text(
-                            text = if (uiState.gender.isEmpty()) "Пол" else uiState.gender,
+                            text = if (uiState.gender.isEmpty()) stringResource(R.string.register_gender_placeholder) else uiState.gender,
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = if (uiState.gender.isEmpty()) ShugaiPlaceholder else Color.Black
@@ -281,7 +282,7 @@ fun RegisterScreen(
                     onValueChange = viewModel::onPasswordChange,
                     placeholder = {
                         Text(
-                            "Пароль",
+                            stringResource(R.string.login_password_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -323,7 +324,7 @@ fun RegisterScreen(
                     onValueChange = viewModel::onPasswordConfirmChange,
                     placeholder = {
                         Text(
-                            "Повторите пароль",
+                            stringResource(R.string.register_confirm_password_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -386,7 +387,7 @@ fun RegisterScreen(
                     .height(51.dp)
             ) {
                 Text(
-                    text = "Зарегистрироваться",
+                    text = stringResource(R.string.login_register_link),
                     fontFamily = InterFont,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500
@@ -420,7 +421,7 @@ fun RegisterScreen(
                     }
                 }
                 Text(
-                    text = "Нажимая на кнопку, Вы даете согласие на обработку персональных данных",
+                    text = stringResource(R.string.register_privacy_notice),
                     fontFamily = InterFont,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.W400,
@@ -435,13 +436,13 @@ fun RegisterScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Уже есть аккаунт?",
+                    text = stringResource(R.string.register_have_account),
                     fontFamily = InterFont,
                     fontSize = 14.sp,
                     color = Color.Black
                 )
                 Text(
-                    text = "Войти",
+                    text = stringResource(R.string.login_button),
                     fontFamily = InterFont,
                     fontSize = 14.sp,
                     color = ShugaiBluePrimary,

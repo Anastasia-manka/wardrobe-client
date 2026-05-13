@@ -44,7 +44,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.example.wardrobe_client.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -82,7 +84,7 @@ fun ClothingScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             Text(
-                text = "ОДЕЖДА",
+                text = stringResource(R.string.clothing_title),
                 fontFamily = YauzaFont,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -122,7 +124,7 @@ fun ClothingScreen(
                         },
                         placeholder = {
                             Text(
-                                text = "Найти...",
+                                text = stringResource(R.string.search_placeholder),
                                 fontFamily = InterFont,
                                 fontSize = 20.sp,
                                 color = ShugaiPlaceholder
@@ -175,7 +177,7 @@ fun ClothingScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Гардероб пуст",
+                            text = stringResource(R.string.clothing_empty),
                             fontFamily = InterFont,
                             color = ShugaiPlaceholder
                         )
@@ -239,7 +241,7 @@ fun ClothingScreen(
                     ) {
                         Spacer(modifier = Modifier.width(24.dp))
                         Text(
-                            text = "ФИЛЬТР",
+                            text = stringResource(R.string.filter_title),
                             fontFamily = YauzaFont,
                             fontSize = 24.sp,
                             fontWeight = FontWeight.W400,
@@ -259,7 +261,7 @@ fun ClothingScreen(
 
                     uiState.references?.let { refs ->
                         Text(
-                            text = "Категории",
+                            text = stringResource(R.string.filter_categories),
                             fontFamily = YauzaFont,
                             fontSize = 20.sp,
                             color = Color.Black
@@ -283,7 +285,7 @@ fun ClothingScreen(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         Text(
-                            text = "Сезон",
+                            text = stringResource(R.string.clothing_season_label),
                             fontFamily = YauzaFont,
                             fontSize = 20.sp,
                             color = Color.Black
@@ -305,7 +307,7 @@ fun ClothingScreen(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         Text(
-                            text = "Материал",
+                            text = stringResource(R.string.clothing_material_label),
                             fontFamily = YauzaFont,
                             fontSize = 20.sp,
                             color = Color.Black
@@ -327,7 +329,7 @@ fun ClothingScreen(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         Text(
-                            text = "Метки",
+                            text = stringResource(R.string.clothing_labels_label),
                             fontFamily = YauzaFont,
                             fontSize = 20.sp,
                             color = Color.Black
@@ -369,7 +371,7 @@ fun ClothingScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Сбросить фильтры",
+                                text = stringResource(R.string.filter_reset),
                                 fontFamily = InterFont,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.W500,
@@ -392,7 +394,7 @@ fun ClothingScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Применить",
+                                text = stringResource(R.string.onboarding_apply),
                                 fontFamily = InterFont,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.W500,

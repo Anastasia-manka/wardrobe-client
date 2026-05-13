@@ -5,9 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.wardrobe_client.presentation.navigation.Screen
+import com.example.wardrobe_client.R
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
@@ -32,7 +34,7 @@ fun ItemCategoryPickerScreen(
     val selectedIds = setOfNotNull(currentId)
 
     ItemFieldPickerScreen(
-        title = "Категория",
+        title = stringResource(R.string.clothing_category_label),
         items = pickerItems,
         selectedIds = selectedIds,
         multiSelect = false,
@@ -66,7 +68,7 @@ fun ItemColorPickerScreen(
     val selectedIds = setOfNotNull(currentId)
 
     ItemFieldPickerScreen(
-        title = "Цвета",
+        title = stringResource(R.string.clothing_colors_label),
         items = pickerItems,
         selectedIds = selectedIds,
         multiSelect = false,
@@ -100,7 +102,7 @@ fun ItemMaterialPickerScreen(
     val selectedIds = setOfNotNull(currentId)
 
     ItemFieldPickerScreen(
-        title = "Материал",
+        title = stringResource(R.string.clothing_material_label),
         items = pickerItems,
         selectedIds = selectedIds,
         multiSelect = false,
@@ -134,7 +136,7 @@ fun ItemLabelsPickerScreen(
     else item?.labels?.map { it.id }?.toSet() ?: emptySet()
 
     ItemFieldPickerScreen(
-        title = "Метки",
+        title = stringResource(R.string.clothing_labels_label),
         items = pickerItems,
         selectedIds = currentLabelIds,
         multiSelect = true,

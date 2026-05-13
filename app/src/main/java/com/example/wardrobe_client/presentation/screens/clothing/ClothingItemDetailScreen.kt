@@ -70,6 +70,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 
 
@@ -90,7 +91,7 @@ fun ClothingItemDetailScreen(
     if (uiState.deleteError != null) {
         AlertDialog(
             onDismissRequest = viewModel::clearDeleteError,
-            title = { Text("Невозможно удалить") },
+            title = { Text(stringResource(R.string.clothing_delete_blocked_title)) },
             text = { Text(uiState.deleteError!!) },
             confirmButton = {
                 TextButton(onClick = viewModel::clearDeleteError) { Text("OK") }
@@ -101,20 +102,20 @@ fun ClothingItemDetailScreen(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Удалить вещь?") },
-            text = { Text("Вещь будет удалена из гардероба. Это действие необратимо.") },
+            title = { Text(stringResource(R.string.clothing_delete_confirm_title)) },
+            text = { Text(stringResource(R.string.clothing_delete_confirm_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog = false
                     viewModel.deleteItem()
                 }) {
-                    Text("Удалить", color = Color(0xFFC33636))
+                    Text( stringResource(R.string.profile_delete_button), color = Color(0xFFC33636))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
                     Text(
-                        "Отмена",
+                        stringResource(R.string.cancel_button),
                         color = Color.Black
                     )
                 }
@@ -139,7 +140,7 @@ fun ClothingItemDetailScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Выберите действие",
+                            text =  stringResource(R.string.action_sheet_title),
                             fontFamily = InterFont,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
@@ -179,7 +180,7 @@ fun ClothingItemDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Изменить изображение",
+                            text = stringResource(R.string.clothing_change_image),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W500
@@ -208,7 +209,7 @@ fun ClothingItemDetailScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Удалить позицию",
+                            text = stringResource(R.string.clothing_delete_item),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.W500,
@@ -357,7 +358,7 @@ fun ClothingItemDetailScreen(
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(20.dp))
                 } else {
                     Text(
-                        text = "Сохранить",
+                        text = stringResource(R.string.save_button),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500
@@ -405,7 +406,7 @@ private fun DetailsTab(
             .padding(horizontal = 24.dp)
     ) {
         DetailRow(
-            label = "Категория",
+            label = stringResource(R.string.clothing_category_label),
             value = categoryName,
             onClick = {
                 viewModel.startEditing()
@@ -421,7 +422,7 @@ private fun DetailsTab(
             }
         )
         DetailRow(
-            label = "Цвет",
+            label = stringResource(R.string.clothing_color_label),
             value = colorName,
             onClick = {
                 viewModel.startEditing()
@@ -429,7 +430,7 @@ private fun DetailsTab(
             }
         )
         DetailRow(
-            label = "Материал",
+            label = stringResource(R.string.clothing_material_label),
             value = materialName,
             onClick = {
                 viewModel.startEditing()
@@ -460,7 +461,7 @@ private fun DetailsTab(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Метки",
+                    text = stringResource(R.string.clothing_labels_label),
                     fontFamily = InterFont,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.W500,
@@ -507,7 +508,7 @@ private fun DetailsTab(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
-                text = "Место хранения",
+                text = stringResource(R.string.clothing_storage_label),
                 fontFamily = InterFont,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W500,
@@ -531,7 +532,7 @@ private fun DetailsTab(
                         Box(modifier = Modifier.padding(vertical = 8.dp)) {
                             if ((if (uiState.hasChanges) uiState.editedStoragePlace else item.storagePlace).isEmpty()) {
                                 Text(
-                                    text = "Например, на верхней полке",
+                                    text = stringResource(R.string.clothing_storage_placeholder2),
                                     fontFamily = InterFont,
                                     fontSize = 16.sp,
                                     color = ShugaiPlaceholder
@@ -553,7 +554,7 @@ private fun DetailsTab(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
-                text = "Комментарий",
+                text = stringResource(R.string.clothing_comment_label),
                 fontFamily = InterFont,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W500,
@@ -577,7 +578,7 @@ private fun DetailsTab(
                         Box(modifier = Modifier.padding(vertical = 8.dp)) {
                             if ((if (uiState.hasChanges) uiState.editedComment else item.comment).isEmpty()) {
                                 Text(
-                                    text = "Например, хочу носить с яркими аксессуарами",
+                                    text = stringResource(R.string.clothing_comment_placeholder2),
                                     fontFamily = InterFont,
                                     fontSize = 16.sp,
                                     color = ShugaiPlaceholder
@@ -662,7 +663,7 @@ private fun SeasonRow(
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Text(
-            text = "Сезон",
+            text = stringResource(R.string.clothing_season_label),
             fontFamily = InterFont,
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,

@@ -33,6 +33,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.wardrobe_client.presentation.theme.InterFont
@@ -70,7 +72,7 @@ fun ClothingItemOutfitsTab(
 ) {
     if (outfits.isEmpty()) {
         Text(
-            text = "Вещь не используется в нарядах",
+            text = stringResource(R.string.clothing_no_outfits),
             modifier = Modifier.padding(16.dp)
         )
         return
@@ -154,7 +156,7 @@ fun ClothingItemCompatibleTab(
                 .height(51.dp)
         ) {
             Text(
-                text = "Подобрать одежду",
+                text = stringResource(R.string.clothing_match_button),
                 fontFamily = InterFont,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W500

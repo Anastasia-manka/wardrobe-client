@@ -52,6 +52,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.ui.res.stringResource
 import com.example.wardrobe_client.presentation.theme.ShugaiScreenBackground
 import com.example.wardrobe_client.presentation.theme.ShugaiInputBg
 import com.example.wardrobe_client.presentation.theme.ShugaiPlaceholder
@@ -108,7 +109,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "АВТОРИЗАЦИЯ",
+                text = stringResource(R.string.login_title),
                 fontFamily = YauzaFont,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -125,7 +126,7 @@ fun LoginScreen(
                     onValueChange = viewModel::onEmailChange,
                     placeholder = {
                         Text(
-                            "Почта",
+                            stringResource(R.string.login_email_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -151,7 +152,7 @@ fun LoginScreen(
                     onValueChange = viewModel::onPasswordChange,
                     placeholder = {
                         Text(
-                            "Пароль",
+                            stringResource(R.string.login_password_label),
                             fontFamily = InterFont,
                             fontSize = 16.sp,
                             color = ShugaiPlaceholder
@@ -218,7 +219,7 @@ fun LoginScreen(
                         .height(51.dp)
                 ) {
                     Text(
-                        text = "Войти",
+                        text = stringResource(R.string.login_button),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500
@@ -230,13 +231,13 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Нет аккаунта?",
+                        text = stringResource(R.string.login_no_account),
                         fontFamily = InterFont,
                         fontSize = 14.sp,
                         color = Color.Black
                     )
                     Text(
-                        text = "Зарегистрироваться",
+                        text = stringResource(R.string.login_register_link),
                         fontFamily = InterFont,
                         fontSize = 14.sp,
                         color = ShugaiBluePrimary,

@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -55,8 +57,8 @@ fun PhotoPickerBlock(
                     .padding(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                ItemFormPhotoButton(label = "Камера", onClick = onCamera)
-                ItemFormPhotoButton(label = "Галерея", onClick = onGallery)
+                ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_camera), onClick = onCamera)
+                ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_gallery), onClick = onGallery)
             }
         } else {
             Column(
@@ -70,14 +72,14 @@ fun PhotoPickerBlock(
                     modifier = Modifier.size(36.dp)
                 )
                 Text(
-                    text = "Загрузите фото вещи",
+                    text = stringResource(R.string.clothing_photo_upload),
                     fontSize = 13.sp,
                     color = ShugaiPlaceholder,
                     fontFamily = InterFont
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ItemFormPhotoButton(label = "Камера", onClick = onCamera)
-                    ItemFormPhotoButton(label = "Галерея", onClick = onGallery)
+                    ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_camera), onClick = onCamera)
+                    ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_gallery), onClick = onGallery)
                 }
             }
         }
@@ -124,8 +126,8 @@ fun EditPhotoBlock(
                 .padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            ItemFormPhotoButton(label = "Камера", onClick = onCamera)
-            ItemFormPhotoButton(label = "Галерея", onClick = onGallery)
+            ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_camera), onClick = onCamera)
+            ItemFormPhotoButton(label = stringResource(R.string.clothing_photo_gallery), onClick = onGallery)
         }
     }
 }

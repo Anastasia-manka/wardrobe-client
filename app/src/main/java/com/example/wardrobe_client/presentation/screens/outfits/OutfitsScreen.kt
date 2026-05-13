@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +50,7 @@ fun OutfitsScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             Text(
-                text = "НАРЯДЫ",
+                text = stringResource(R.string.outfits_title),
                 fontFamily = YauzaFont,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -84,7 +86,7 @@ fun OutfitsScreen(
                         onValueChange = { searchQuery = it },
                         placeholder = {
                             Text(
-                                text = "Найти...",
+                                text = stringResource(R.string.search_placeholder),
                                 fontFamily = InterFont,
                                 fontSize = 20.sp,
                                 color = ShugaiPlaceholder
@@ -132,7 +134,7 @@ fun OutfitsScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Нарядов пока нет",
+                            text = stringResource(R.string.outfits_empty),
                             fontFamily = InterFont,
                             color = ShugaiPlaceholder
                         )

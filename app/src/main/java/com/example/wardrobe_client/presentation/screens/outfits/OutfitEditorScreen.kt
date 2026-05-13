@@ -37,7 +37,9 @@ import com.example.wardrobe_client.presentation.screens.clothing.PickerItem
 import com.example.wardrobe_client.presentation.theme.*
 import kotlin.math.roundToInt
 import androidx.compose.ui.draw.clipToBounds
+import com.example.wardrobe_client.R
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun OutfitEditorScreen(
@@ -76,7 +78,7 @@ fun OutfitEditorScreen(
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = if (viewModel.isEditMode) "Редактировать наряд" else "Новый наряд",
+                    text = if (viewModel.isEditMode) stringResource(R.string.outfit_editor_title_edit) else stringResource(R.string.outfit_editor_title_new),
                     fontFamily = YauzaFont,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.W400,
@@ -143,7 +145,7 @@ fun OutfitEditorScreen(
 
             Column(modifier = Modifier.padding(horizontal = 24.dp)) {
                 Text(
-                    text = "Добавить вещь",
+                    text = stringResource(R.string.outfit_add_item_button),
                     fontFamily = InterFont,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W500,
@@ -174,7 +176,7 @@ fun OutfitEditorScreen(
                     ?.find { it.id == uiState.selectedStyleId }
 
                 Text(
-                    text = "Стиль *",
+                    text = stringResource(R.string.outfit_style_required),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W500,
                     color = ShugaiPlaceholder,
@@ -192,7 +194,7 @@ fun OutfitEditorScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = selectedStyle?.name ?: "Выбрать стиль",
+                        text = selectedStyle?.name ?: stringResource(R.string.outfit_style_placeholder),
                         fontSize = 14.sp,
                         fontFamily = InterFont,
                         color = if (selectedStyle != null) ShugaiTextPrimary else ShugaiPlaceholder,
@@ -240,7 +242,7 @@ fun OutfitEditorScreen(
                     )
                 } else {
                     Text(
-                        text = "Сохранить наряд",
+                        text = stringResource(R.string.outfit_save_button),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500
@@ -255,7 +257,7 @@ fun OutfitEditorScreen(
             PickerItem(id = it.id, name = it.name)
         }
         ItemFieldPickerScreen(
-            title = "Стиль",
+            title = stringResource(R.string.outfit_style_label),
             items = items,
             selectedIds = setOfNotNull(uiState.selectedStyleId.ifBlank { null }),
             multiSelect = false,

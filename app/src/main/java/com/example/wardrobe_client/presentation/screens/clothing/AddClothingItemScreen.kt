@@ -37,6 +37,8 @@ import com.example.wardrobe_client.presentation.theme.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.wardrobe_client.R
 import java.util.jar.Manifest
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -102,7 +104,7 @@ fun AddClothingItemScreen(
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = "Добавить вещь",
+                    text = stringResource(R.string.outfit_add_item_button),
                     fontFamily = YauzaFont,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.W400,
@@ -142,9 +144,9 @@ fun AddClothingItemScreen(
                     ?.find { it.id == uiState.categoryId }
 
                 AddItemSelectorField(
-                    label = "Категория",
+                    label = stringResource(R.string.clothing_category_label),
                     value = selectedCategory?.name,
-                    placeholder = "Выбрать категорию",
+                    placeholder = stringResource(R.string.clothing_category_placeholder),
                     required = true,
                     onClick = { showCategoryPicker = true }
                 )
@@ -152,9 +154,9 @@ fun AddClothingItemScreen(
                 val selectedSeason = refs?.seasons?.find { it.id == uiState.seasonId }
 
                 AddItemSelectorField(
-                    label = "Сезон",
+                    label = stringResource(R.string.clothing_season_label),
                     value = selectedSeason?.name,
-                    placeholder = "Выбрать сезон",
+                    placeholder = stringResource(R.string.clothing_season_placeholder),
                     required = true,
                     onClick = { showSeasonPicker = true }
                 )
@@ -163,9 +165,9 @@ fun AddClothingItemScreen(
                 val selectedColor = refs?.colors?.find { it.id == uiState.colorId }
 
                 AddItemSelectorField(
-                    label = "Цвет",
+                    label = stringResource(R.string.clothing_color_label),
                     value = selectedColor?.name,
-                    placeholder = "Выбрать цвет",
+                    placeholder = stringResource(R.string.clothing_color_placeholder),
                     required = true,
                     onClick = { showColorPicker = true }
                 )
@@ -173,9 +175,9 @@ fun AddClothingItemScreen(
                 val selectedMaterial = refs?.materials?.find { it.id == uiState.materialId }
 
                 AddItemSelectorField(
-                    label = "Материал",
+                    label = stringResource(R.string.clothing_material_label),
                     value = selectedMaterial?.name,
-                    placeholder = "Выбрать материал",
+                    placeholder = stringResource(R.string.clothing_material_placeholder),
                     required = true,
                     onClick = { showMaterialPicker = true }
                 )
@@ -183,23 +185,23 @@ fun AddClothingItemScreen(
                 val selectedLabels = refs?.labels?.filter { it.id in uiState.labels.map { l -> l.id } }
 
                 AddItemSelectorField(
-                    label = "Метки",
+                    label = stringResource(R.string.clothing_labels_label),
                     value = selectedLabels?.takeIf { it.isNotEmpty() }?.joinToString(", ") { it.name },
-                    placeholder = "Выбрать метки",
+                    placeholder = stringResource(R.string.clothing_labels_placeholder),
                     onClick = { showLabelsPicker = true }
                 )
 
                 AddItemTextField(
-                    label = "Место хранения",
+                    label = stringResource(R.string.clothing_storage_label),
                     value = uiState.storagePlace,
-                    placeholder = "Например: шкаф, 2-я полка",
+                    placeholder = stringResource(R.string.clothing_storage_placeholder),
                     onValueChange = viewModel::onStoragePlaceChange
                 )
 
                 AddItemTextField(
-                    label = "Комментарий",
+                    label = stringResource(R.string.clothing_comment_label),
                     value = uiState.comment,
-                    placeholder = "Заметки об уходе, размере...",
+                    placeholder = stringResource(R.string.clothing_comment_placeholder),
                     onValueChange = viewModel::onCommentChange,
                     minLines = 3
                 )
@@ -237,7 +239,7 @@ fun AddClothingItemScreen(
                     )
                 } else {
                     Text(
-                        text = "Сохранить",
+                        text = stringResource(R.string.save_button),
                         fontFamily = InterFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500
@@ -254,7 +256,7 @@ fun AddClothingItemScreen(
             }
         }
         ItemFieldPickerScreen(
-            title = "Категория",
+            title = stringResource(R.string.clothing_category_label),
             items = items,
             selectedIds = setOfNotNull(uiState.categoryId.ifBlank { null }),
             multiSelect = false,
@@ -270,7 +272,7 @@ fun AddClothingItemScreen(
     if (showSeasonPicker && refs != null) {
         val items = refs.seasons.map { PickerItem(id = it.id, name = it.name) }
         ItemFieldPickerScreen(
-            title = "Сезон",
+            title = stringResource(R.string.clothing_season_label),
             items = items,
             selectedIds = setOfNotNull(uiState.seasonId.ifBlank { null }),
             multiSelect = false,
@@ -286,7 +288,7 @@ fun AddClothingItemScreen(
     if (showColorPicker && refs != null) {
         val items = refs.colors.map { PickerItem(id = it.id, name = it.name) }
         ItemFieldPickerScreen(
-            title = "Цвет",
+            title = stringResource(R.string.clothing_color_label),
             items = items,
             selectedIds = setOfNotNull(uiState.colorId.ifBlank { null }),
             multiSelect = false,
@@ -302,7 +304,7 @@ fun AddClothingItemScreen(
     if (showMaterialPicker && refs != null) {
         val items = refs.materials.map { PickerItem(id = it.id, name = it.name) }
         ItemFieldPickerScreen(
-            title = "Материал",
+            title = stringResource(R.string.clothing_material_label),
             items = items,
             selectedIds = setOfNotNull(uiState.materialId.ifBlank { null }),
             multiSelect = false,
@@ -319,7 +321,7 @@ fun AddClothingItemScreen(
         val items = refs.labels.map { PickerItem(id = it.id, name = it.name) }
         val selectedLabelIds = uiState.labels.map { it.id }.toSet()
         ItemFieldPickerScreen(
-            title = "Метки",
+            title = stringResource(R.string.clothing_labels_label),
             items = items,
             selectedIds = selectedLabelIds,
             multiSelect = true,
