@@ -15,3 +15,17 @@ data class VisualSearchResultDto(
     val comment: String? = null,
     val labels: List<String> = emptyList()
 )
+
+@Serializable
+data class VisualSearchGroupDto(
+    val categoryGroup: String,
+    val confidence: Float,
+    val items: List<VisualSearchResultDto>
+)
+
+@Serializable
+data class VisualSearchResponseDto(
+    val grouped: Boolean,
+    val items: List<VisualSearchResultDto>,
+    val groups: List<VisualSearchGroupDto>
+)

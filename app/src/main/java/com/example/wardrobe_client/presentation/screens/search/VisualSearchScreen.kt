@@ -18,53 +18,41 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.wardrobe_client.R
+import com.example.wardrobe_client.domain.model.ClothingItem
+import com.example.wardrobe_client.domain.repository.VisualSearchGroup
 import com.example.wardrobe_client.presentation.navigation.Screen
 import com.example.wardrobe_client.presentation.theme.InterFont
 import com.example.wardrobe_client.presentation.theme.ShugaiBluePrimary
 import com.example.wardrobe_client.presentation.theme.ShugaiPlaceholder
 import com.example.wardrobe_client.presentation.theme.ShugaiScreenBackground
+import com.example.wardrobe_client.presentation.theme.ShugaiTextSecondary
 import com.example.wardrobe_client.presentation.theme.YauzaFont
-import java.io.File
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 
 @Composable
 fun VisualSearchScreen(
@@ -186,7 +174,7 @@ fun VisualSearchScreen(
                         }
 
                         when {
-                            uiState.hasSearched && uiState.results.isEmpty() -> {
+                            uiState.hasSearched && uiState.groups.isEmpty() && uiState.items.isEmpty() -> {
                                 item {
                                     Box(
                                         modifier = Modifier
@@ -204,7 +192,20 @@ fun VisualSearchScreen(
                                 }
                             }
 
-                            uiState.results.isNotEmpty() -> {
+                            uiState.grouped && uiState.groups.isNotEmpty() -> {
+                                items(uiState.groups) { group ->
+                                    SearchGroupSection(
+                                        group = group,
+                                        onItemClick = { item ->
+                                            navController.navigate(
+                                                Screen.ClothingItemDetail.createRoute(item.id)
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+
+                            uiState.items.isNotEmpty() -> {
                                 item {
                                     Text(
                                         text = stringResource(R.string.visual_search_results_label),
@@ -216,40 +217,16 @@ fun VisualSearchScreen(
                                     )
                                     Spacer(modifier = Modifier.height(12.dp))
                                 }
-
-                                val chunked = uiState.results.chunked(2)
+                                val chunked = uiState.items.chunked(2)
                                 items(chunked) { rowItems ->
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 24.dp),
-                                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                                    ) {
-                                        rowItems.forEach { item ->
-                                            Box(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .aspectRatio(174f / 201f)
-                                                    .clip(RoundedCornerShape(30.dp))
-                                                    .background(Color(0xFFD9D9D9))
-                                                    .clickable {
-                                                        navController.navigate(
-                                                            Screen.ClothingItemDetail.createRoute(item.id)
-                                                        )
-                                                    }
-                                            ) {
-                                                AsyncImage(
-                                                    model = item.imageUrl,
-                                                    contentDescription = null,
-                                                    contentScale = ContentScale.Crop,
-                                                    modifier = Modifier.fillMaxSize()
-                                                )
-                                            }
+                                    SearchItemRow(
+                                        rowItems = rowItems,
+                                        onItemClick = { item ->
+                                            navController.navigate(
+                                                Screen.ClothingItemDetail.createRoute(item.id)
+                                            )
                                         }
-                                        repeat(2 - rowItems.size) {
-                                            Spacer(modifier = Modifier.weight(1f))
-                                        }
-                                    }
+                                    )
                                     Spacer(modifier = Modifier.height(16.dp))
                                 }
                             }
@@ -257,6 +234,66 @@ fun VisualSearchScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun SearchGroupSection(
+    group: VisualSearchGroup,
+    onItemClick: (ClothingItem) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = group.categoryGroup,
+            fontFamily = InterFont,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W600,
+            color = ShugaiTextSecondary,
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        val chunked = group.items.chunked(2)
+        chunked.forEach { rowItems ->
+            SearchItemRow(rowItems = rowItems, onItemClick = onItemClick)
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+private fun SearchItemRow(
+    rowItems: List<ClothingItem>,
+    onItemClick: (ClothingItem) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        rowItems.forEach { item ->
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(174f / 201f)
+                    .clip(RoundedCornerShape(30.dp))
+                    .background(Color(0xFFD9D9D9))
+                    .clickable { onItemClick(item) }
+            ) {
+                AsyncImage(
+                    model = item.imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+        repeat(2 - rowItems.size) {
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }

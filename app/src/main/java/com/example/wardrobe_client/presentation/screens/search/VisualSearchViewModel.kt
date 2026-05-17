@@ -2,10 +2,11 @@ package com.example.wardrobe_client.presentation.screens.search
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wardrobe_client.domain.model.ClothingItem
+import com.example.wardrobe_client.domain.repository.VisualSearchGroup
+import com.example.wardrobe_client.domain.repository.VisualSearchResult
 import com.example.wardrobe_client.domain.usecase.search.VisualSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,7 +22,9 @@ import javax.inject.Inject
 data class VisualSearchUiState(
     val selectedImageUri: Uri? = null,
     val isLoading: Boolean = false,
-    val results: List<ClothingItem> = emptyList(),
+    val grouped: Boolean = false,
+    val items: List<ClothingItem> = emptyList(),
+    val groups: List<VisualSearchGroup> = emptyList(),
     val hasSearched: Boolean = false,
     val error: String? = null
 )
@@ -39,7 +42,8 @@ class VisualSearchViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 selectedImageUri = uri,
-                results = emptyList(),
+                items = emptyList(),
+                groups = emptyList(),
                 hasSearched = false,
                 error = null
             )
@@ -52,11 +56,13 @@ class VisualSearchViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val file = uriToFile(uri)
-                val results = visualSearchUseCase(file)
+                val result = visualSearchUseCase(file)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        results = results,
+                        grouped = result.grouped,
+                        items = result.items,
+                        groups = result.groups,
                         hasSearched = true
                     )
                 }
@@ -81,8 +87,8 @@ class VisualSearchViewModel @Inject constructor(
         }
         return tempFile
     }
+
     fun clearSearch() {
         _uiState.update { VisualSearchUiState() }
     }
-
 }
