@@ -1,19 +1,23 @@
 package com.example.wardrobe_client.di
 
+import com.example.wardrobe_client.data.remote.api.VisualSearchApi
 import com.example.wardrobe_client.data.repository.AuthRepositoryImpl
 import com.example.wardrobe_client.data.repository.ClothingItemRepositoryImpl
 import com.example.wardrobe_client.data.repository.OutfitRepositoryImpl
 import com.example.wardrobe_client.data.repository.ProfileRepositoryImpl
 import com.example.wardrobe_client.data.repository.ReferenceRepositoryImpl
 import com.example.wardrobe_client.data.repository.TripRepositoryImpl
+import com.example.wardrobe_client.data.repository.VisualSearchRepositoryImpl
 import com.example.wardrobe_client.domain.repository.AuthRepository
 import com.example.wardrobe_client.domain.repository.ClothingItemRepository
 import com.example.wardrobe_client.domain.repository.OutfitRepository
 import com.example.wardrobe_client.domain.repository.ProfileRepository
 import com.example.wardrobe_client.domain.repository.ReferenceRepository
 import com.example.wardrobe_client.domain.repository.TripRepository
+import com.example.wardrobe_client.domain.repository.VisualSearchRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -45,4 +49,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindProfileRepository(impl: ProfileRepositoryImpl): ProfileRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindVisualSearchRepository(impl: VisualSearchRepositoryImpl): VisualSearchRepository
 }

@@ -116,4 +116,12 @@
     <string name="clothing_delete_item">Удалить позицию</string>
     <string name="clothing_storage_placeholder2">Например, на верхней полке</string>
     <string name="clothing_comment_placeholder2">Например, хочу носить с яркими аксессуарами</string>
+    <string name="visual_search_title">ПОВТОРИ НАРЯД</string>
+    <string name="visual_search_upload_button">Загрузить образ</string>
+    <string name="visual_search_source_title">Источник фото</string>
+    <string name="visual_search_source_gallery">Галерея</string>
+    <string name="visual_search_source_camera">Камера</string>
+    <string name="visual_search_source_cancel">Отмена</string>
+    <string name="visual_search_empty">Похожие вещи не найдены</string>
+    <string name="visual_search_results_label">Вещи</string>
 </resources>

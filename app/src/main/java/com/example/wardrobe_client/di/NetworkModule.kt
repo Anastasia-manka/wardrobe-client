@@ -6,6 +6,7 @@ import com.example.wardrobe_client.data.remote.api.OutfitApi
 import com.example.wardrobe_client.data.remote.api.ProfileApi
 import com.example.wardrobe_client.data.remote.api.ReferenceApi
 import com.example.wardrobe_client.data.remote.api.TripApi
+import com.example.wardrobe_client.data.remote.api.VisualSearchApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -78,6 +79,11 @@ object NetworkModule {
     @Singleton
     fun provideProfileApi(retrofit: Retrofit): ProfileApi =
         retrofit.create(ProfileApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideVisualSearchApi(retrofit: Retrofit): VisualSearchApi =
+        retrofit.create(VisualSearchApi::class.java)
 
     @Provides
     @Singleton

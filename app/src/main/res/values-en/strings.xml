@@ -117,4 +117,12 @@
     <string name="clothing_delete_item">Delete item</string>
     <string name="clothing_storage_placeholder2">E.g.: top shelf</string>
     <string name="clothing_comment_placeholder2">E.g.: want to wear with bright accessories</string>
+    <string name="visual_search_title">REPEAT OUTFIT</string>
+    <string name="visual_search_upload_button">Upload look</string>
+    <string name="visual_search_source_title">Photo source</string>
+    <string name="visual_search_source_gallery">Gallery</string>
+    <string name="visual_search_source_camera">Camera</string>
+    <string name="visual_search_source_cancel">Cancel</string>
+    <string name="visual_search_empty">No similar items found</string>
+    <string name="visual_search_results_label">Items</string>
 </resources>

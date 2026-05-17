@@ -4,6 +4,7 @@ import com.example.wardrobe_client.data.local.entity.ClothingItemEntity
 import com.example.wardrobe_client.data.remote.dto.ClothingItemDto
 import com.example.wardrobe_client.data.remote.dto.LabelDto
 import com.example.wardrobe_client.data.remote.dto.TemplateItemDto
+import com.example.wardrobe_client.data.remote.dto.VisualSearchResultDto
 import com.example.wardrobe_client.domain.model.ClothingItem
 import com.example.wardrobe_client.domain.model.Label
 import com.example.wardrobe_client.domain.model.TemplateItem
@@ -84,3 +85,19 @@ fun ClothingItemEntity.toDomain(): ClothingItem {
         comment = comment
     )
 }
+fun VisualSearchResultDto.toClothingItem(): ClothingItem = ClothingItem(
+    id = id,
+    imageUrl = imageUrl,
+    categoryId = categoryId,
+    categoryName = "",
+    categoryGroupName = "",
+    seasonIds = listOf(seasonId),
+    seasonNames = emptyList(),
+    colorId = colorId,
+    colorName = "",
+    materialId = materialId,
+    materialName = "",
+    labels = emptyList(),
+    storagePlace = storagePlace ?: "",
+    comment = comment ?: ""
+)
