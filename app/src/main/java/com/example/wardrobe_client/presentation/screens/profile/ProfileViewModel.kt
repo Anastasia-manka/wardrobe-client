@@ -19,7 +19,6 @@ data class ProfileUiState(
     val isLoading: Boolean = false,
     val isLoggedOut: Boolean = false,
     val isAccountDeleted: Boolean = false,
-    val showLanguageDialog: Boolean = false,
     val showDeleteDialog: Boolean = false,
     val error: String? = null
 )
@@ -75,14 +74,6 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
         }
-    }
-
-    fun showLanguageDialog() {
-        _uiState.value = _uiState.value.copy(showLanguageDialog = true)
-    }
-
-    fun hideLanguageDialog() {
-        _uiState.value = _uiState.value.copy(showLanguageDialog = false)
     }
 
     fun showDeleteDialog() {

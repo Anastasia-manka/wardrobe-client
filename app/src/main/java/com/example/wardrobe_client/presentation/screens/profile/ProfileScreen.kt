@@ -73,96 +73,11 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    var selectedLanguage by remember { mutableStateOf("ru") }
 
     LaunchedEffect(uiState.isLoggedOut, uiState.isAccountDeleted) {
         if (uiState.isLoggedOut || uiState.isAccountDeleted) {
             navController.navigate(Screen.Login.route) {
                 popUpTo(0) { inclusive = true }
-            }
-        }
-    }
-
-    if (uiState.showLanguageDialog) {
-        Dialog(onDismissRequest = viewModel::hideLanguageDialog) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(20.dp))
-                    .padding(24.dp)
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = stringResource(R.string.profile_language_title),
-                            fontFamily = InterFont,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-                            color = Color.Black,
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .align(Alignment.CenterEnd)
-                                .clickable { viewModel.hideLanguageDialog() }
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    listOf(
-                        "ru" to "Русский",
-                        "en" to "English"
-                    ).forEach { (code, name) ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { selectedLanguage = code }
-                                .padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = name,
-                                fontFamily = InterFont,
-                                fontSize = 16.sp,
-                                color = Color.Black
-                            )
-                            RadioButton(
-                                selected = selectedLanguage == code,
-                                onClick = { selectedLanguage = code },
-                                colors = RadioButtonDefaults.colors(
-                                    selectedColor = ShugaiBluePrimary
-                                )
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(44.dp)
-                            .background(ShugaiBluePrimary, RoundedCornerShape(30.dp))
-                            .clickable {
-                                val localeList = LocaleListCompat.forLanguageTags(selectedLanguage)
-                                AppCompatDelegate.setApplicationLocales(localeList)
-                                viewModel.hideLanguageDialog()
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text =  stringResource(R.string.profile_language_select_button),
-                            fontFamily = InterFont,
-                            fontSize = 16.sp,
-                            color = Color.White
-                        )
-                    }
-                }
             }
         }
     }
@@ -359,21 +274,6 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                ProfileButton(
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Translate,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    },
-                    text = stringResource(R.string.profile_change_language),
-                    textColor = Color.White,
-                    backgroundColor = ShugaiBluePrimary,
-                    onClick = viewModel::showLanguageDialog
-                )
-
                 ProfileButton(
                     icon = {
                         Icon(
